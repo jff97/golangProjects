@@ -1,3 +1,6 @@
+//for printf
+// - pads the right
+// non negative pads the left
 package main
 
 import (
@@ -11,5 +14,3 @@ func main() {
 	fmt.Printf("%-25v $%-4v\n", "Reed Ring Space Program", 420)
 	fmt.Printf("%-25v $%-4v\n", "Virgin Galactic", 100)
 }
-
-
