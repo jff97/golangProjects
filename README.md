@@ -8,4 +8,6 @@ and
 ## Things that supprised me in the GO Programming Language
 * No type coercion. int + float produces compiler error
 * How strings worked with utf-8
+* Go has no numerical equivalent for boolean values
+* you can use == for comparing strings
 
