@@ -3,11 +3,14 @@ import (
 	"fmt"
 	"math/rand"
 	"time"
+	"os"
+   "os/exec"
+   "runtime"
 )
 
 const (
-	width = 80
-	height = 15
+	width = 115
+	height = 26
 )
 
 type Universe [][]bool
@@ -58,8 +61,11 @@ func (u Universe) Seed() {
 }
 
 func (u Universe) Alive(row, col int) bool {
-	row = row % width
-	col = col % width
+	row = (row + height) % height
+	//fmt.Printf("row = %v\n", row)
+	col = (col + width) % width
+	//fmt.Printf("col = %v\n", col)
+	return u[row][col]
 }
 
 func (u Universe) Neighbors(x, y int) int {
@@ -116,9 +122,61 @@ func (u Universe) Next(x, y int) bool {
 	}
 }
 
+//returns the universe one cycle after the universe state a
+//read through a and dont change it
+//update b and return it
+func Step(a Universe) Universe {
+	//make a copy of the universe
+	b := make(Universe, len(a))
+	for i := range a {
+		b[i] = make([]bool, len(a[i]))
+		copy(b[i], a[i])
+	}
+
+	//update the state of all spots in universe
+	for row := range a {
+		for col := range a[row] {
+			b[row][col] = a.Next(row, col)
+		}
+	}
+	return b
+}
+
+func clearScreen() {
+	switch runtime.GOOS {
+	case "windows":
+		cmd := exec.Command("cmd", "/c", "cls")
+		cmd.Stdout = os.Stdout
+		cmd.Run()
+	case "linux", "darwin":
+		fmt.Print("\033[2J\033[H")
+	default:
+		fmt.Print("Unsupported platform")
+	}
+}
+
 func main() {
-	tester := NewUniverse()
-	tester.Show()
-	tester.Seed()
-	tester.Show()
+	animationDelay := time.Duration(.05 * float64(time.Second))
+	numIters := 500
+	//print out starting info
+	fmt.Println("This is Conways Game of Life with a random seed\n")
+	//make new universe
+	board := NewUniverse()
+	board.Seed()
+	//print out starting universe
+	clearScreen()
+	board.Show()
+	//sleep 1 unit long
+	time.Sleep(2 * animationDelay)
+	//for i < numIters
+	for i := 1; i < numIters + 1; i++ {
+		//step
+		board = Step(board)
+		//sleep 1 unit
+		time.Sleep(animationDelay)
+		//wipe screen 
+		clearScreen()
+		//show
+		board.Show()
+	}
 }
