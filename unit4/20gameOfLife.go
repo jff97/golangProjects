@@ -9,8 +9,8 @@ import (
 )
 
 const (
-	width = 115
-	height = 26
+	width = 140
+	height = 35
 )
 
 type Universe [][]bool
@@ -51,7 +51,7 @@ func (u Universe) Seed() {
 	for row := range u {
 		for col := range u[row] {
 			randomFrac := rand.Float64()
-			if randomFrac < 0.25 {
+			if randomFrac < 0.77 {
 				u[row][col] = true
 			} else {
 				u[row][col] = false
