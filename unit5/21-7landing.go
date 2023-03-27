@@ -18,10 +18,10 @@ func main() {
 		{Name: "Challenger Memorial Station", Lat: -1.9462, Long: 354.4734},
   	}
 
-	bytes, err := json.Marshal(locations)
+	bytes, err := json.MarshalIndent(locations, "", " ")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
-  }
+  	}
 	fmt.Println(string(bytes))
 }
