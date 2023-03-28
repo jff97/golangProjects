@@ -10,4 +10,4 @@ and
 * How strings worked with utf-8
 * Go has no numerical equivalent for boolean values
 * you can use == for comparing strings
-
+* you can after the fact make some section of code implement an interface. You dont have to explicitely state the implements when writing it. 
