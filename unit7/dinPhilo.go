@@ -73,9 +73,15 @@ func main() {
 	// Create philospoher, assign them 2 chopSticks and send them to the dining table
 	philosophers := make([]*Philosopher, count)
 	for i := 0; i < count; i++ {
+		if i > (i + 1) % count {
+			philosophers[i] = &Philosopher{
+				id: i, leftChopStick: chopSticks[(i + 1) % count], rightChopStick: chopSticks[i]
+			}
+		}
 		philosophers[i] = &Philosopher{
-			id: i, leftChopStick: chopSticks[i], rightChopStick: chopSticks[(i+1)%count]}
-            //john spin up a go routine with the philosopher
+			id: i, leftChopStick: chopSticks[i], rightChopStick: chopSticks[(i+1)%count]
+		}
+      //john spin up a go routine with the philosopher
 		go philosophers[i].dine()
 	}
 
